@@ -29,11 +29,6 @@ namespace clap1
 
 		void Clap(TimeSpan duration)
 		{
-			string str = "raw/clap1.mp3";
-			string path = str;
-			_mediaPlayer.Reset();
-			_mediaPlayer.SetDataSource (path);
-			_mediaPlayer.Prepare();
 			_mediaPlayer.Start();
 		}
 
