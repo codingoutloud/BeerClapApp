@@ -74,15 +74,30 @@ namespace clap1
 #if true // audio
 		MediaPlayer _mediaPlayer = null;
 		
-		void Clap(TimeSpan duration)
+		void Clap(int clapFileNumber)
 		{
-			int plays = (int)(duration.TotalSeconds + 0.5);
-			plays = Math.Min (10, plays);
-			plays = Math.Max (1, plays);
-			for (int i=0; i<plays; i++)
+			switch (clapFileNumber)
+			{
+			case 1:
+				_mediaPlayer = MediaPlayer.Create(this, Resource.Raw.clap1);
+				break;
+			case 2:
+			default:
+				_mediaPlayer = MediaPlayer.Create(this, Resource.Raw.clap2);
+				break;
+			case 3:
+				_mediaPlayer = MediaPlayer.Create(this, Resource.Raw.clap3);
+				break;
+
+			}
+
+//			int plays = (int)(duration.TotalSeconds + 0.5);
+//			plays = Math.Min (10, plays);
+//			plays = Math.Max (1, plays);
+//			for (int i=0; i<plays; i++)
 			{
 				_mediaPlayer.Start();
-				System.Threading.Thread.Sleep(TimeSpan.FromSeconds (1));
+//				System.Threading.Thread.Sleep(TimeSpan.FromSeconds (1));
 			}
 
 			if (String.IsNullOrEmpty(_stadium) || _stadium == DEFAULT_STADIUM) 
@@ -113,7 +128,8 @@ namespace clap1
 					_sensorTextView.Text = text.ToString();
 					
 					var x = e.Values[0];
-					if (x < -6) Clap(TimeSpan.FromSeconds(1));
+					if (x < -6) Clap(1);
+					if (x > 6) Clap(2);
 				}
 				catch (Exception ex)
 				{
@@ -162,7 +178,7 @@ namespace clap1
 #endif
 
 #if true
-			_mediaPlayer = MediaPlayer.Create(this, Resource.Raw.clap1);
+//			_mediaPlayer = MediaPlayer.Create(this, Resource.Raw.clap1);
 #endif
 			
 #if true // Accelerometer
@@ -184,7 +200,7 @@ namespace clap1
 			aButton.Text = "Do it";
 			aButton.Click += (sender, e) => { 
 				aLabel.Text = _stadium + count++;
-				Clap(TimeSpan.FromSeconds(3));
+				Clap(3);
 			};
 			
 			layout.AddView (aLabel);
