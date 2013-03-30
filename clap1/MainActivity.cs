@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.OS;
 using Android.Hardware;
 using System.Text;
+using Android.Media;
 
 namespace clap1
 {
@@ -23,7 +24,19 @@ namespace clap1
 		{
 			// We don't want to do anything here.
 		}
-		
+
+		MediaPlayer _mediaPlayer = null;
+
+		void Clap(TimeSpan duration)
+		{
+			string str = "raw/clap1.mp3";
+			string path = str;
+			_mediaPlayer.Reset();
+			_mediaPlayer.SetDataSource (path);
+			_mediaPlayer.Prepare();
+			_mediaPlayer.Start();
+		}
+
 		public void OnSensorChanged(SensorEvent e)
 		{
 			lock (_syncLock)
@@ -55,6 +68,10 @@ namespace clap1
 		{
 			base.OnCreate (bundle);
 
+#if true
+			_mediaPlayer = MediaPlayer.Create(this, Resource.Raw.clap1);
+#endif
+
 #if true // Accelerometer
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Main);
@@ -64,7 +81,7 @@ namespace clap1
 
 #if true
 			var layout = new LinearLayout(this);
-			layout.Orientation = Orientation.Vertical;
+			layout.Orientation = Android.Widget.Orientation.Vertical;
 
 			_sensorTextView = new TextView(this);
 			var aLabel = new TextView(this);

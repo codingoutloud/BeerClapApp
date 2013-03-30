@@ -56,6 +56,12 @@
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
+    <AndroidResource Include="Resources\raw\clap1.mp3" />
+    <AndroidResource Include="Resources\raw\clap2.mp3" />
+    <AndroidResource Include="Resources\raw\clap3.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Resources\raw\" />
+  </ItemGroup>
 </Project>
