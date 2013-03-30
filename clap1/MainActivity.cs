@@ -28,6 +28,7 @@ namespace clap1
 		{
 			lock (_syncLock)
 			{
+//				switch (e.Sensor.
 				var text = new StringBuilder("x = ")
 					.Append(e.Values[0])
 						.Append(", y=")
@@ -35,8 +36,19 @@ namespace clap1
 						.Append(", z=")
 						.Append(e.Values[2]);
 				_sensorTextView.Text = text.ToString();
-
 			}
+		}
+
+	    protected override void OnPause()
+        {
+			base.OnPause();
+			_sensorManager.UnregisterListener(this);
+		}
+
+		protected override void OnResume()
+		{
+			base.OnResume();
+			_sensorManager.RegisterListener(this, _sensorManager.GetDefaultSensor(SensorType.Accelerometer), SensorDelay.Ui);
 		}
 
 		protected override void OnCreate (Bundle bundle)
