@@ -50,8 +50,8 @@ namespace clap1
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int myButton = 2131034112;
+			// aapt resource value: 0x7f060000
+			public const int myButton = 2131099648;
 			
 			private Id()
 			{
@@ -69,14 +69,31 @@ namespace clap1
 			}
 		}
 		
+		public partial class Raw
+		{
+			
+			// aapt resource value: 0x7f040000
+			public const int clap1 = 2130968576;
+			
+			// aapt resource value: 0x7f040001
+			public const int clap2 = 2130968577;
+			
+			// aapt resource value: 0x7f040002
+			public const int clap3 = 2130968578;
+			
+			private Raw()
+			{
+			}
+		}
+		
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int app_name = 2130968577;
+			// aapt resource value: 0x7f050001
+			public const int app_name = 2131034113;
 			
-			// aapt resource value: 0x7f040000
-			public const int hello = 2130968576;
+			// aapt resource value: 0x7f050000
+			public const int hello = 2131034112;
 			
 			private String()
 			{
