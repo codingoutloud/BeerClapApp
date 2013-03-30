@@ -100,7 +100,7 @@ namespace clap1
 //			for (int i=0; i<plays; i++)
 			{
 				_mediaPlayer.Start();
-//				System.Threading.Thread.Sleep(TimeSpan.FromSeconds (1));
+				System.Threading.Thread.Sleep(TimeSpan.FromSeconds (1));
 			}
 
 			if (String.IsNullOrEmpty(_stadium) || _stadium == DEFAULT_STADIUM) 
