@@ -12,6 +12,8 @@ using System.Text;
 using System.Collections.Generic;
 using Android.Media;
 
+// http://api.espn.com/v1/sports/baseball/mlb/events/320328111?apikey=ynjqg72rvk8sbm2k8qtrdkqs
+
 namespace clap1
 {
 	[Activity (Label = "clap1", MainLauncher = true)]
@@ -27,7 +29,8 @@ namespace clap1
 		private List<MLBStadium> stadiums;
 		Location currentLocation;
 
-		string DEFAULT_STADIUM = "(Fenway Park)";
+		string DEFAULT_STADIUM = "[Fenway Park]";
+
 
 #if true // GPS
 		private string GetClosest()
