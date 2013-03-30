@@ -49,6 +49,9 @@ namespace clap1
 						.Append(", z=")
 						.Append(e.Values[2]);
 				_sensorTextView.Text = text.ToString();
+
+				var x = e.Values[0];
+				if (x < -6) Clap(TimeSpan.FromSeconds(1));
 			}
 		}
 
@@ -91,6 +94,7 @@ namespace clap1
 			aButton.Text = "Do it";
 			aButton.Click += (sender, e) => { 
 				aLabel.Text = "Clap " + count++;
+				Clap(TimeSpan.FromSeconds(2));
 			};
 
 			layout.AddView (aLabel);
