@@ -1,14 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="clap1\MainActivity.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="clap1/MainActivity.cs">
     <Files>
-      <File FileName="clap1\MainActivity.cs" Line="57" Column="1" />
-      <File FileName="clap1\Assets\AboutAssets.txt" Line="1" Column="1" />
+      <File FileName="clap1/MainActivity.cs" Line="70" Column="36" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/brendandonahue/Sites/BeerClapApp/clap1/MainActivity.cs" line="41" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.clap1 AndroidDeviceId-Debug="emulator-5556" />
+  <MonoDevelop.Ide.ItemProperties.clap1 AndroidDeviceId-Debug="e7cd1dc0" />
 </Properties>
