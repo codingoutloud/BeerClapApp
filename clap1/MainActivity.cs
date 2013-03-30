@@ -85,7 +85,7 @@ namespace clap1
 				System.Threading.Thread.Sleep(TimeSpan.FromSeconds (1));
 			}
 
-			if (_stadium == null) 
+			if (String.IsNullOrEmpty(_stadium)) 
 			{
 				_stadium = GetClosest();
 			}
