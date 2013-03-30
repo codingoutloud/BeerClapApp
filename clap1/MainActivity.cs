@@ -10,6 +10,7 @@ using Android.Hardware;
 using Android.Locations;
 using System.Text;
 using System.Collections.Generic;
+using Android.Media;
 
 namespace clap1
 {
@@ -26,20 +27,25 @@ namespace clap1
 		private List<MLBStadium> stadiums;
 		Location currentLocation;
 
+#if true // GPS
 		private string GetClosest()
 		{
-			MLBStadium closestStadium = null;
-			double evaluatedDistance;
-			foreach (MLBStadium curr in stadiums)
+			if (currentLocation != null)
 			{
-				evaluatedDistance = curr.DistanceToMe (currentLocation.Latitude, currentLocation.Longitude);
-				if (closestStadium == null || evaluatedDistance < closestStadium.Distance)
+				MLBStadium closestStadium = null;
+				double evaluatedDistance;
+				foreach (MLBStadium curr in stadiums)
 				{
-					closestStadium = curr;
+					evaluatedDistance = curr.DistanceToMe (currentLocation.Latitude, currentLocation.Longitude);
+					if (closestStadium == null || evaluatedDistance < closestStadium.Distance)
+					{
+						closestStadium = curr;
+					}
 				}
+				
+				return closestStadium.Stadium;
 			}
-			
-			return closestStadium.Stadium;
+			return "";
 		}
 
 		public void OnLocationChanged (Location location)
@@ -61,29 +67,64 @@ namespace clap1
 		{
 			throw new NotImplementedException ();
 		}
+	
+		
+#endif
 
+#if true // audio
+		MediaPlayer _mediaPlayer = null;
+		
+		void Clap(TimeSpan duration)
+		{
+			int plays = (int)(duration.TotalSeconds + 0.5);
+			plays = Math.Min (10, plays);
+			plays = Math.Max (1, plays);
+			for (int i=0; i<plays; i++)
+			{
+				_mediaPlayer.Start();
+				System.Threading.Thread.Sleep(TimeSpan.FromSeconds (1));
+			}
+
+			if (_stadium == null) 
+			{
+				_stadium = GetClosest();
+			}
+		}
+#endif
+
+#if true // accelerometer
 		public void OnAccuracyChanged(Sensor sensor, SensorStatus accuracy)
 		{
 			// We don't want to do anything here.
 		}
-		
+
 		public void OnSensorChanged(SensorEvent e)
 		{
 			lock (_syncLock)
 			{
-//				switch (e.Sensor.
-				var text = new StringBuilder("x = ")
-					.Append(e.Values[0])
-						.Append(", y=")
-						.Append(e.Values[1])
-						.Append(", z=")
-						.Append(e.Values[2]);
-				_sensorTextView.Text = text.ToString();
+				try
+				{
+					var text = new StringBuilder("x = ")
+						.Append(e.Values[0])
+							.Append(", y=")
+							.Append(e.Values[1])
+							.Append(", z=")
+							.Append(e.Values[2]);
+					_sensorTextView.Text = text.ToString();
+					
+					var x = e.Values[0];
+					if (x < -6) Clap(TimeSpan.FromSeconds(1));
+				}
+				catch (Exception ex)
+				{
+					_sensorTextView.Text = ex.Message;
+				}
 			}
 		}
+#endif
 
-	    protected override void OnPause()
-        {
+		protected override void OnPause()
+		{
 			base.OnPause();
 			_sensorManager.UnregisterListener(this);
 			_locMgr.RemoveUpdates (this);
@@ -93,14 +134,18 @@ namespace clap1
 		protected override void OnResume()
 		{
 			base.OnResume();
+			_sensorManager.RegisterListener(this, _sensorManager.GetDefaultSensor(SensorType.Accelerometer), SensorDelay.Ui);
 			_locMgr.RequestLocationUpdates (
 				LocationManager.GpsProvider, 2000, 1, this);
 			_sensorManager.RegisterListener(this, _sensorManager.GetDefaultSensor(SensorType.Accelerometer), SensorDelay.Ui);
 		}
 
+		string _stadium = "";
+
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+
 #if true // GPS
 			_locMgr = GetSystemService (Context.LocationService) as LocationManager;
 			
@@ -110,46 +155,42 @@ namespace clap1
 			{
 				stadiums.Add(new MLBStadium(currStadium));
 			}
+			_stadium = GetClosest();
 			//button.Click += delegate {
 			//	button.Text = GetClosest();
 			//};
 #endif
+
+#if true
+			_mediaPlayer = MediaPlayer.Create(this, Resource.Raw.clap1);
+#endif
+			
 #if true // Accelerometer
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Main);
 			_sensorManager = (SensorManager) GetSystemService(Context.SensorService);
-		//	_sensorTextView = FindViewById<TextView>(Resource.Id.accelerometer_text);
+			//	_sensorTextView = FindViewById<TextView>(Resource.Id.accelerometer_text);
 #endif
-
+			
 #if true
 			var layout = new LinearLayout(this);
-			layout.Orientation = Orientation.Vertical;
-
+			layout.Orientation = Android.Widget.Orientation.Vertical;
+			
 			_sensorTextView = new TextView(this);
 			var aLabel = new TextView(this);
 			aLabel.Text = "Clapping. With one hand. With a beer in the other.";
-
+			
 			var aButton = new Button(this);
 			aButton.Text = "Do it";
 			aButton.Click += (sender, e) => { 
-				aLabel.Text = "Clap " + count++;
+				aLabel.Text = _stadium + count++;
+				Clap(TimeSpan.FromSeconds(3));
 			};
-
+			
 			layout.AddView (aLabel);
 			layout.AddView (_sensorTextView);
 			layout.AddView(aButton);
 			SetContentView(layout);
-#else
-			// Set our view from the "main" layout resource
-			SetContentView (Resource.Layout.Main);
-
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button> (Resource.Id.myButton);
-			
-			button.Click += delegate {
-				button.Text = string.Format ("{0} clicks!", count++);
-			};
 #endif
 		}
 	}
