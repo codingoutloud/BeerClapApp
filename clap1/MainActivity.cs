@@ -27,6 +27,8 @@ namespace clap1
 		private List<MLBStadium> stadiums;
 		Location currentLocation;
 
+		string DEFAULT_STADIUM = "(Fenway Park)";
+
 #if true // GPS
 		private string GetClosest()
 		{
@@ -45,7 +47,7 @@ namespace clap1
 				
 				return closestStadium.Stadium;
 			}
-			return "(FenwayPark) ";
+			return DEFAULT_STADIUM;
 		}
 
 		public void OnLocationChanged (Location location)
@@ -83,7 +85,7 @@ namespace clap1
 				System.Threading.Thread.Sleep(TimeSpan.FromSeconds (1));
 			}
 
-			if (String.IsNullOrEmpty(_stadium)) 
+			if (String.IsNullOrEmpty(_stadium) || _stadium == DEFAULT_STADIUM) 
 			{
 				_stadium = GetClosest();
 			}
