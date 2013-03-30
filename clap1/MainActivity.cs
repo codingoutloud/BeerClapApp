@@ -45,7 +45,7 @@ namespace clap1
 				
 				return closestStadium.Stadium;
 			}
-			return "";
+			return "(FenwayPark) ";
 		}
 
 		public void OnLocationChanged (Location location)
@@ -55,20 +55,18 @@ namespace clap1
 		
 		public void OnProviderDisabled (string provider)
 		{
-			throw new NotImplementedException ();
+//			throw new NotImplementedException ();
 		}
 		
 		public void OnProviderEnabled (string provider)
 		{
-			throw new NotImplementedException ();
+//			throw new NotImplementedException ();
 		}
 		
 		public void OnStatusChanged (string provider, Availability status, Bundle extras)
 		{
-			throw new NotImplementedException ();
+//			throw new NotImplementedException ();
 		}
-	
-		
 #endif
 
 #if true // audio
